@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <div class="content">
+            <div class="top">
+                <h2 class="name"></h2>
+                <h2 class="health_points"></h2>
+            </div>
+            <img class="image">
+            <div class="traits">
+                <h2 class="height"></h2>
+                <h2 class="weight"></h2>
+                <h2 class="base_experience"></h2>
+            </div>
+
+            <div class="abilities">
+                <div class="ability_name">
+
+                </div>
+                <div class="slots">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+    async function getData(){
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon/303/")
+        const data= await response.json()
+        console.log(data)
+
+        document.querySelector('.name').textContent = data.name.toUpperCase();
+
+        document.querySelector('.health_points').textContent = data.stats[0].base_stat;
+
+        document.querySelector('.image').src=data.sprites.front_default;
+
+        document.querySelector('.height').textContent = "HT: " + data.height;
+
+        document.querySelector('.weight').textContent = "WT: " + data.weight;
+
+        document.querySelector('.base_experience').textContent = "EXP: " + data.base_experience;
+
+
+        data.abilities.forEach((el)=>{
+            const ability=document.createElement("h2")
+            ability.textContent=el.ability.name
+            document.querySelector(".ability_name").appendChild(ability);
+
+            const slot=document.createElement("h2")
+            slot.textContent=el.slot
+            document.querySelector(".slots").appendChild(slot)
+        })
+        
+    }
+
+    getData()
+
+</script>
+</html>
